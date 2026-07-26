@@ -7,6 +7,10 @@
 #define MAX_ARGS 5000
 
 int main(int argc, char *argv[]) {
+    if(argc!=1){
+        printf("invalid number of arguments\n");
+        return -1;
+    }
     
     char input[MAX_CMD];
     char *cmd_argv[MAX_ARGS];
