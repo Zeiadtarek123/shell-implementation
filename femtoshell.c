@@ -3,75 +3,89 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_CMD 4096
-#define MAX_ARGS 100
+#define MAX_CMD 100000
+#define MAX_ARGS 5000
 
-int main()
-{
+int main(int argc, char *argv[]) {
+    
     char input[MAX_CMD];
-    char *argv[MAX_ARGS];
+    char *cmd_argv[MAX_ARGS];
+    int last_status = 0; 
 
     while (1) {
-        printf("Femto Shell prompt > ");
+        write(1, "femto shell prompt > ", 21);
         
-        int n = read(0, input, MAX_CMD - 1);
-        if (n <= 0) {
+        int i = 0;
+        char c;
+        int n;
+
+        while ((n = read(0, &c, 1)) > 0) {
+            if (c == '\n') {
+                break;
+            }
+            if (i < MAX_CMD - 1) {
+                input[i++] = c;
+            }
+        }
+
+        if (n <= 0 && i == 0) {
             break;
         }
-        input[n] = '\0';
+        input[i] = '\0';
 
-        int argc = 0;
-        int i = 0;
+        int cmd_argc = 0;
+        int idx = 0;
 
-        while (i < n) {
-            while (input[i] == ' ' || input[i] == '\n') {
-                input[i] = '\0';
-                i++;
+        while (idx < i) {
+            while (input[idx] == ' ') {
+                input[idx] = '\0';
+                idx++;
             }
-            if (input[i] != '\0') {
-                argv[argc++] = &input[i];
-                while (i < n && input[i] != ' ' && input[i] != '\n') {
-                    i++;
+            if (input[idx] != '\0') {
+                if (cmd_argc < MAX_ARGS) {
+                    cmd_argv[cmd_argc++] = &input[idx];
+                }
+                while (idx < i && input[idx] != ' ') {
+                    idx++;
                 }
             }
         }
 
-        if (argc == 0) {
+        if (cmd_argc == 0) {
             continue;
         }
 
-        if (strcmp(argv[0], "echo") == 0) {
+        if (strcmp(cmd_argv[0], "echo") == 0) {
             int j;
-            for (j = 1; j < argc; j++) {
+            for (j = 1; j < cmd_argc; j++) {
                 int len = 0;
-                while (argv[j][len] != '\0') {
+                while (cmd_argv[j][len] != '\0') {
                     len++;
                 }
 
-                if (write(1, argv[j], len) < 0) {
-                    printf("Write failed\n");
+                if (write(1, cmd_argv[j], len) < 0) {
                     exit(-1);
                 }
 
-                if (j < argc - 1) {
+                if (j < cmd_argc - 1) {
                     if (write(1, " ", 1) < 0) {
-                        printf("Write failed\n");
                         exit(-2);
                     }
                 }
             }
 
             if (write(1, "\n", 1) < 0) {
-                printf("Write failed\n");
                 exit(-3);
             }
-        } else if (strcmp(argv[0], "exit") == 0) {
-            printf("Good Bye :)\n");
+            last_status = 0; 
+        } else if (strcmp(cmd_argv[0], "exit") == 0) {
+            write(1, "Good Bye\n", 9); 
             break;
         } else {
-            printf("Invalid command\n");
+            write(1, "Invalid command\n", 16);
+            last_status = 1; 
         }
     }
 
-    return 0;
+    return last_status; 
 }
