@@ -1,35 +1,63 @@
-Femto Shell in C
-A minimalist Unix shell implementation written in C that supports basic built-in commands (echo and exit) using low-level system calls and standard library routines.
+Custom C Shell Implementation Series
+A progressive collection of minimalist Unix-style command-line shell implementations written in C, developed using low-level system calls (read, write, fork, execvp, waitpid) and standard POSIX functions.
 
-Features
-Custom Prompt: Displays femto shell prompt > to wait for user input.
+Implemented Shell Architectures
+1. Femto Shell
+A foundational shell implementation constructed to analyze core command parsing logic, prompt routing, and internal command processing entirely within a single execution context without spawning child processes.
 
-Echo Command: Echoes any text entered by the user back to standard output.
+Supported Built-in Utilities:
 
-Exit Command: Prints a farewell message (Good Bye :)) and terminates the shell.
+echo: Prints user-provided text strings directly to standard output.
 
-Error Handling: Outputs an Invalid command message for any unrecognized input.
+exit: Gracefully terminates the shell session and propagates status tracking.
 
-Compilation and Execution
-Compilation Command
-Compile the program using gcc:
+Core Characteristics: Custom prompt formatting, manual stream management utilizing standard file descriptors, and targeted error handlers for unsupported inputs.
 
+2. Pico Shell
+An advanced architectural upgrade introducing process management and dynamic memory allocation to support both built-in handlers and external system binaries.
+
+Supported Built-in Utilities:
+
+echo, exit, pwd (print working directory), and cd (change working directory).
+
+Supported External Commands:
+
+Any valid binary executable present within the operating system environment (e.g., ls, cat), spawned dynamically through fork() and executed via execvp().
+
+Core Characteristics: Dynamic argument tokenization with automatic buffer reallocation (malloc and realloc), complete exit status emulation ($? tracking), and precise file descriptor inheritance mirroring standard Unix specifications.
+
+Compilation and Execution Instructions
+Compiling and Running Femto Shell
 Bash
 gcc -o femtoshell femtoshell.c
-Running the Shell
-Execute the compiled binary:
-
-Bash
 ./femtoshell
-Example Usage
+Compiling and Running Pico Shell
+Bash
+gcc -o picoshell picoshell.c
+./picoshell
+Usage Examples
+Femto Shell Example Session
 Plaintext
-femto shell prompt > echo Hello my shell
-Hello my shell
-femto shell prompt > echo You are super
-You are super
-femto shell prompt > ls
+femto shell prompt > echo System programming is engaging
+System programming is engaging
+femto shell prompt > unsupported_command
 Invalid command
 femto shell prompt > exit
-Good Bye :)
-Implementation Notes
-This utility directly parses user input read from file descriptor 0 (stdin) and uses low-level write system calls to handle output, matching standard Unix specifications without relying on complex shell parsing frameworks.
+Good Bye
+Pico Shell Example Session
+Plaintext
+Pico shell prompt > pwd
+/home/ziad/embedded
+Pico shell prompt > cd /tmp
+Pico shell prompt > pwd
+/tmp
+Pico shell prompt > ls -l
+total 0
+Pico shell prompt > exit
+Good Bye
+Future Development Roadmap
+To continue advancing through the principles of operating systems and advanced systems programming, future iterations of this project will incorporate:
+
+Nano Shell: Implementation of input/output redirection operators (> and <) alongside pipeline mechanisms (|) to facilitate inter-process communication.
+
+Micro Shell: Integration of background process execution (&), interactive job control (jobs, fg, bg), and asynchronous signal management (SIGINT, SIGTSTP).
