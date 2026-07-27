@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#define MAX_LINE 4096
+#define MAX_LINE 4096*3
 
 int main(int argc, char *argv[]) 
 {
