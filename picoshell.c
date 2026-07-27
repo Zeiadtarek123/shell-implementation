@@ -7,7 +7,7 @@
 
 #define MAX_LINE 4096
 
-int picoshell_main(int argc, char *argv[]) 
+int main(int argc, char *argv[]) 
 {
 	int last_status = 0;
     char line[MAX_LINE];
