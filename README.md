@@ -49,3 +49,81 @@ An advanced shell extending the Nano Shell parser to support multiple file input
 ```bash
 gcc -o femtoshell femtoshell.c
 ./femtoshell
+```
+
+### Pico Shell
+```bash
+gcc -o picoshell picoshell.c
+./picoshell
+```
+
+### Nano Shell
+```bash
+gcc -o nanoshell nanoshell.c
+./nanoshell
+```
+
+### Micro Shell
+```bash
+gcc -o microshell microshell.c
+./microshell
+```
+
+---
+
+## Usage Examples
+
+### Femto Shell Session
+```text
+femto shell prompt > echo System programming is engaging
+System programming is engaging
+femto shell prompt > unsupported_command
+Invalid command
+femto shell prompt > exit
+Good Bye
+```
+
+### Pico Shell Session
+```text
+Pico shell prompt > pwd
+/home/ziad/embedded
+Pico shell prompt > cd /tmp
+Pico shell prompt > pwd
+/tmp
+Pico shell prompt > ls -l
+total 0
+Pico shell prompt > exit
+Good Bye
+```
+
+### Nano Shell Session
+```text
+Nano Shell Prompt > folder=home
+Nano Shell Prompt > ls /$folder
+# lists the /home directory
+Nano Shell Prompt > x=5
+Nano Shell Prompt > export x
+Nano Shell Prompt > exit
+Good Bye
+```
+
+### Micro Shell Session
+```text
+Micro Shell Prompt > echo Hello World > /tmp/output.txt
+Micro Shell Prompt > cat < /tmp/output.txt
+Hello World
+Micro Shell Prompt > cat < /tmp/non_existent.txt 2> /tmp/error.txt
+Micro Shell Prompt > cat /tmp/error.txt
+cannot access /tmp/non_existent.txt: No such file or directory
+Micro Shell Prompt > exit
+Good Bye
+```
+
+---
+
+## Future Development Roadmap
+
+To continue advancing through the principles of operating systems and advanced systems programming, future iterations of this project will incorporate:
+
+* **Mini Shell:** Implementation of pipeline mechanisms (`|`) to facilitate inter-process communication and link multiple commands simultaneously.
+* **Milli Shell:** Integration of background process execution (`&`), interactive job control (`jobs`, `fg`, `bg`), and asynchronous signal management (`SIGINT`, `SIGTSTP`).
