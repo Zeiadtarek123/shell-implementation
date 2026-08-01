@@ -82,7 +82,7 @@ char* expand_vars(const char *token) {
     return result;
 }
 
-int microshell_main(int argc, char *argv[]) 
+int main(int argc, char *argv[]) 
 {
     (void)argc;
     (void)argv;
