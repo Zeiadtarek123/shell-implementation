@@ -81,7 +81,7 @@ char* expand_vars(const char *token) {
     return result;
 }
 
-int nanoshell_main(int argc, char *argv[]) 
+int main(int argc, char *argv[]) 
 {
     (void)argc;
     (void)argv;
